@@ -6,13 +6,13 @@
   "scripts": {
     "build:pdf": "marp *.md --pdf --output dist/pdf/",
     "build:html": "marp *.md --html --output dist/html/",
-    "build:pptx": "marp *.md --pptx --output dist/pptx/",
+    "build:pptx": "mkdir -p dist/pptx && marp *.md --pptx --output dist/pptx/ || echo 'PPTX conversion failed, skipping...'",
     "build:all": "npm run build:pdf && npm run build:html && npm run build:pptx",
     "preview": "marp --server *.md"
   },
   "keywords": [
     "javascript",
-    "study",
+    "study", 
     "materials",
     "closures",
     "functions",
@@ -25,7 +25,7 @@
   "author": "pikulad",
   "license": "MIT",
   "devDependencies": {
-    "@marp-team/marp-cli": "^3.4.0"
+    "@marp-team/marp-cli": "^3.6.0"
   },
   "repository": {
     "type": "git",

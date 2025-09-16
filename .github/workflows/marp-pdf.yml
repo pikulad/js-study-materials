@@ -31,8 +31,8 @@ jobs:
     - name: Install Marp CLI
       run: npm install -g @marp-team/marp-cli
       
-    - name: Create output directory
-      run: mkdir -p dist/pdf
+    - name: Create output directories
+      run: mkdir -p dist/pdf dist/html dist/pptx
       
     - name: Convert Marp files to PDF
       run: |
@@ -44,16 +44,55 @@ jobs:
           fi
         done
         
-    - name: List generated PDFs
+    - name: Convert Marp files to HTML
+      run: |
+        # Convert each markdown file to HTML
+        for file in *.md; do
+          if [ -f "$file" ] && [ "$file" != "README.md" ]; then
+            echo "Converting $file to HTML..."
+            marp "$file" --html --output "dist/html/${file%.md}.html"
+          fi
+        done
+        
+    - name: Convert Marp files to PPTX (optional)
+      run: |
+        # Convert each markdown file to PPTX (if supported)
+        for file in *.md; do
+          if [ -f "$file" ] && [ "$file" != "README.md" ]; then
+            echo "Converting $file to PPTX..."
+            marp "$file" --pptx --output "dist/pptx/${file%.md}.pptx" || echo "PPTX conversion failed for $file, skipping..."
+          fi
+        done
+        
+    - name: List generated files
       run: |
         echo "Generated PDF files:"
-        ls -la dist/pdf/
+        ls -la dist/pdf/ || echo "No PDF files generated"
+        echo "Generated HTML files:"
+        ls -la dist/html/ || echo "No HTML files generated"
+        echo "Generated PPTX files:"
+        ls -la dist/pptx/ || echo "No PPTX files generated"
         
     - name: Upload PDF artifacts
       uses: actions/upload-artifact@v4
       with:
         name: marp-pdfs
         path: dist/pdf/
+        retention-days: 30
+        
+    - name: Upload HTML artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: marp-html
+        path: dist/html/
+        retention-days: 30
+        
+    - name: Upload PPTX artifacts
+      uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: marp-pptx
+        path: dist/pptx/
         retention-days: 30
         
     - name: Create PDF index
