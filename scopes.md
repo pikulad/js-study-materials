@@ -1,4 +1,19 @@
+---
+marp: true
+theme: gaia
+_class: lead
+paginate: true
+backgroundColor: #fff
+backgroundImage: url('Assets/background.svg')
+---
 
+![bg left:40% 80%](Assets/codeastu_ciklum.png)
+
+# **Javascript Essentials**
+
+Scopes
+
+---
 # Scopes
 
 Scope defines where variables are accessible.

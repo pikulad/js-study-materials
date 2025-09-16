@@ -1,4 +1,19 @@
+---
+marp: true
+theme: gaia
+_class: lead
+paginate: true
+backgroundColor: #fff
+backgroundImage: url('Assets/background.svg')
+---
 
+![bg left:40% 80%](Assets/codeastu_ciklum.png)
+
+# **Javascript Essentials**
+
+Hoisting
+
+---
 # Hoisting
 
 JavaScript moves declarations to the top of the scope during compilation.

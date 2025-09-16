@@ -1,4 +1,19 @@
+---
+marp: true
+theme: gaia
+_class: lead
+paginate: true
+backgroundColor: #fff
+backgroundImage: url('Assets/background.svg')
+---
 
+![bg left:40% 80%](Assets/codeastu_ciklum.png)
+
+# **Javascript Essentials**
+
+Variables
+
+---
 # Variables
 
 In JavaScript, variables are used to store and manipulate data. They are defined using the `var`, `let`, or `const` keywords.
