@@ -1,0 +1,79 @@
+name: Convert Marp to PDF
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - '*.md'
+      - 'Assets/**'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - '*.md'
+      - 'Assets/**'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  convert-marp:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install Marp CLI
+      run: npm install -g @marp-team/marp-cli
+      
+    - name: Create output directory
+      run: mkdir -p dist/pdf
+      
+    - name: Convert Marp files to PDF
+      run: |
+        # Convert each markdown file to PDF
+        for file in *.md; do
+          if [ -f "$file" ] && [ "$file" != "README.md" ]; then
+            echo "Converting $file to PDF..."
+            marp "$file" --pdf --output "dist/pdf/${file%.md}.pdf"
+          fi
+        done
+        
+    - name: List generated PDFs
+      run: |
+        echo "Generated PDF files:"
+        ls -la dist/pdf/
+        
+    - name: Upload PDF artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: marp-pdfs
+        path: dist/pdf/
+        retention-days: 30
+        
+    - name: Create PDF index
+      run: |
+        echo "# Generated PDF Files" > dist/pdf/README.md
+        echo "" >> dist/pdf/README.md
+        echo "This directory contains PDF versions of the JavaScript study materials." >> dist/pdf/README.md
+        echo "" >> dist/pdf/README.md
+        echo "## Available PDFs:" >> dist/pdf/README.md
+        echo "" >> dist/pdf/README.md
+        for pdf in dist/pdf/*.pdf; do
+          if [ -f "$pdf" ]; then
+            filename=$(basename "$pdf")
+            echo "- [$filename]($filename)" >> dist/pdf/README.md
+          fi
+        done
+        
+    - name: Deploy to GitHub Pages (optional)
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist/pdf
+        destination_dir: pdfs

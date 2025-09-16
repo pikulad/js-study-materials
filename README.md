@@ -91,6 +91,23 @@ javascript-study/
    - Open any `.md` file to read the study material
    - Each file contains detailed explanations with code examples
    - Practice the examples in your browser console or Node.js
+
+3. **Access PDF versions:**
+   - PDFs are automatically generated via GitHub Actions
+   - Download from the [Actions tab](https://github.com/pikulad/js-study-materials/actions) artifacts
+   - Or access via GitHub Pages at `https://pikulad.github.io/js-study-materials/pdfs/`
+
+4. **Local development:**
+   ```bash
+   # Install dependencies
+   npm install
+   
+   # Generate PDFs locally
+   npm run build:pdf
+   
+   # Preview slides locally
+   npm run preview
+   ```
 ---
 ## 📖 How to Use This Repository
 
@@ -123,11 +140,28 @@ After studying these materials, you should be able to:
 - ✅ Write more maintainable and efficient JavaScript code
 - ✅ Debug common JavaScript issues related to these concepts
 ---
+## 🤖 Automated PDF Generation
+
+This repository uses GitHub Actions to automatically convert Marp Markdown files to PDF format:
+
+- **Trigger**: Automatically runs on every push to main/master branch
+- **Output**: Generates PDF versions of all study materials
+- **Access**: Download from Actions artifacts or GitHub Pages
+- **Manual**: Can be triggered manually from the Actions tab
+
+### Workflow Features:
+- ✅ Converts all `.md` files (except README) to PDF
+- ✅ Preserves Marp themes and styling
+- ✅ Creates downloadable artifacts
+- ✅ Publishes to GitHub Pages
+- ✅ Runs on every content update
+
 ## 🔗 Additional Resources
 
 Each study material includes references to:
 - [Eloquent JavaScript](https://eloquentjavascript.net/) - Comprehensive JavaScript guide
 - [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - Official JavaScript documentation
+- [Marp](https://marp.app/) - Markdown presentation ecosystem
 - Other relevant learning resources
 ---
 ## 🤝 Contributing
